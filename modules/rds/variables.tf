@@ -17,11 +17,6 @@ variable "db_username" {
   type = string
 }
 
-variable "db_password" {
-  type      = string
-  sensitive = true
-}
-
 variable "db_sg_id" {
   description = "ID of the security group for the RDS instance"
   type        = string

@@ -25,6 +25,16 @@ module "rds" {
   private_subnet_2 = module.network.private_subnet_2
   vpc_id = module.network.vpc_id
   db_username = var.db_username
-  db_password = var.db_password
   db_sg_id = module.network.db_sec_group_id
+}
+
+module "ecr" {
+  source = "../modules/ecr"
+}
+
+module "cicd" {
+  source = "../modules/cicd"
+  project_name = var.project_name
+  github_repo = var.github_repo
+  ecr_repository_arns = module.ecr.repository_arns
 }
