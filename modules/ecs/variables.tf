@@ -10,6 +10,10 @@ variable "backend_repository_url" {
   type = string
 }
 
+variable "frontend_repository_url" {
+  type = string
+}
+
 variable "db_host" {
   type = string
 }
@@ -30,6 +34,14 @@ variable "private_subnet_2" {
   type = string
 }
 
-variable "security_group_id" {
+variable "backend_security_group_id" {
+  type = string
+}
+
+variable "frontend_security_group_id" {
+  type = string
+}
+
+variable "alb_target_group_arn" {
   type = string
 }

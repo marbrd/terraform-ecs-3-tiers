@@ -44,10 +44,22 @@ module "ecs" {
   project_name = var.project_name
   db_secret_arn = module.rds.db_secret_arn
   backend_repository_url = module.ecr.backend_repository_url
+  frontend_repository_url = module.ecr.frontend_repository_url
   db_host = module.rds.db_host
   db_name = module.rds.db_name
   region = var.region
   private_subnet_1 = module.network.private_subnet_1
   private_subnet_2 = module.network.private_subnet_2
-  security_group_id = module.network.backend_sg_id
+  backend_security_group_id = module.network.backend_sg_id
+  frontend_security_group_id = module.network.frontend_sg_id
+  alb_target_group_arn = module.alb.frontend_target_group_arn
+}
+
+module "alb" {
+  source = "../modules/alb"
+  project_name = var.project_name
+  alb_sg_id = module.network.alb_sg_id
+  public_subnet_1 = module.network.public_subnet_1
+  public_subnet_2 = module.network.public_subnet_2
+  vpc_id = module.network.vpc_id
 }
