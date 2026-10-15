@@ -36,6 +36,16 @@ resource "aws_subnet" "private" {
   }
 }
 
+resource "aws_subnet" "data" {
+  count = 2
+  vpc_id = aws_vpc.main.id
+  cidr_block = cidrsubnet(var.vpc_cidr, 4, count.index + 10)
+  availability_zone = local.azs[count.index]
+  tags = {
+    Name = "${var.project_name}-subnet-data${count.index + 1}-${local.azs[count.index]}"
+  }
+}
+
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
   tags = {
@@ -81,6 +91,13 @@ resource "aws_route_table" "private" {
   }
 }
 
+resource "aws_route_table" "data" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.project_name}-rtb-data"
+  }
+}
+
 resource "aws_route_table_association" "public" {
   count = 2
   subnet_id = aws_subnet.public[count.index].id
@@ -93,21 +110,9 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_security_group" "db" {
-  name   = "${var.project_name}_db_sg"
-  vpc_id = aws_vpc.main.id
 
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_route_table_association" "data" {
+  count          = 2
+  subnet_id      = aws_subnet.data[count.index].id
+  route_table_id = aws_route_table.data.id
 }
