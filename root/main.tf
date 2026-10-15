@@ -38,3 +38,8 @@ module "cicd" {
   github_repo = var.github_repo
   ecr_repository_arns = module.ecr.repository_arns
 }
+
+module "ecs" {
+  source = "../modules/ecs"
+  project_name = var.project_name
+}
