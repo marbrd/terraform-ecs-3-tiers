@@ -46,6 +46,11 @@ resource "aws_iam_role_policy" "ecr_push" {
           "ecr:PutImage"
         ]
         Resource = var.ecr_repository_arns
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["ecs:UpdateService", "ecs:DescribeServices"]
+        Resource = "arn:aws:ecs:*:*:service/${var.project_name}-cluster/*"
       }
     ]
   })
