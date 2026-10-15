@@ -1,10 +1,10 @@
-variable "private_subnet_1" {
-    description = "Bloc CIDR of the first private subnet"
+variable "data_subnet_1" {
+    description = "Bloc CIDR of the first data subnet"
     type        = string
 }
 
-variable "private_subnet_2" {
-    description = "Bloc CIDR of the second private subnet"
+variable "data_subnet_2" {
+    description = "Bloc CIDR of the second data subnet"
     type        = string
 }
 

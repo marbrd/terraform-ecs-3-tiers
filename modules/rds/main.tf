@@ -1,8 +1,8 @@
 resource "aws_db_subnet_group" "ecs_db_subnet_group" {
   name       = "ecs-db-subnet-group"
-  subnet_ids = [var.private_subnet_1, var.private_subnet_2]
+  subnet_ids = [var.data_subnet_1, var.data_subnet_2]
   tags = {
-    Name = "My DB subnet group"
+    Name = "db subnet group"
   }
 }
 
